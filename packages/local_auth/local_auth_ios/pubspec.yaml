@@ -15,6 +15,9 @@ flutter:
       ios:
         pluginClass: FLTLocalAuthPlugin
         dartPluginClass: LocalAuthIOS
+      macos:
+        pluginClass: InAppPurchasePlugin
+        dartPluginClass: LocalAuthIOS
 
 dependencies:
   flutter:
