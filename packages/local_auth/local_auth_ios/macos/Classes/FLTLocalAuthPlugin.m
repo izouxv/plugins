@@ -24,7 +24,7 @@
                                   binaryMessenger:[registrar messenger]];
   FLTLocalAuthPlugin *instance = [[FLTLocalAuthPlugin alloc] init];
   [registrar addMethodCallDelegate:instance channel:channel];
-  [registrar addApplicationDelegate:instance];
+  // [registrar addApplicationDelegate:instance];
 }
 
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
@@ -61,48 +61,48 @@
   return [[LAContext alloc] init];
 }
 
-- (void)alertMessage:(NSString *)message
-         firstButton:(NSString *)firstButton
-       flutterResult:(FlutterResult)result
-    additionalButton:(NSString *)secondButton {
-  UIAlertController *alert =
-      [UIAlertController alertControllerWithTitle:@""
-                                          message:message
-                                   preferredStyle:UIAlertControllerStyleAlert];
+// - (void)alertMessage:(NSString *)message
+//          firstButton:(NSString *)firstButton
+//        flutterResult:(FlutterResult)result
+//     additionalButton:(NSString *)secondButton {
+//   UIAlertController *alert =
+//       [UIAlertController alertControllerWithTitle:@""
+//                                           message:message
+//                                    preferredStyle:UIAlertControllerStyleAlert];
 
-  UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:firstButton
-                                                          style:UIAlertActionStyleDefault
-                                                        handler:^(UIAlertAction *action) {
-                                                          result(@NO);
-                                                        }];
+//   UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:firstButton
+//                                                           style:UIAlertActionStyleDefault
+//                                                         handler:^(UIAlertAction *action) {
+//                                                           result(@NO);
+//                                                         }];
 
-  [alert addAction:defaultAction];
-  if (secondButton != nil) {
-    UIAlertAction *additionalAction = [UIAlertAction
-        actionWithTitle:secondButton
-                  style:UIAlertActionStyleDefault
-                handler:^(UIAlertAction *action) {
-                  if (UIApplicationOpenSettingsURLString != NULL) {
-                    NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-                    if (@available(iOS 10, *)) {
-                      [[UIApplication sharedApplication] openURL:url
-                                                         options:@{}
-                                               completionHandler:NULL];
-                    } else {
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                      [[UIApplication sharedApplication] openURL:url];
-#pragma clang diagnostic pop
-                    }
-                    result(@NO);
-                  }
-                }];
-    [alert addAction:additionalAction];
-  }
-  [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert
-                                                                                     animated:YES
-                                                                                   completion:nil];
-}
+//   [alert addAction:defaultAction];
+//   if (secondButton != nil) {
+//     UIAlertAction *additionalAction = [UIAlertAction
+//         actionWithTitle:secondButton
+//                   style:UIAlertActionStyleDefault
+//                 handler:^(UIAlertAction *action) {
+//                   if (UIApplicationOpenSettingsURLString != NULL) {
+//                     NSURL *url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+//                     if (@available(iOS 10, *)) {
+//                       [[UIApplication sharedApplication] openURL:url
+//                                                          options:@{}
+//                                                completionHandler:NULL];
+//                     } else {
+// #pragma clang diagnostic push
+// #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+//                       [[UIApplication sharedApplication] openURL:url];
+// #pragma clang diagnostic pop
+//                     }
+//                     result(@NO);
+//                   }
+//                 }];
+//     [alert addAction:additionalAction];
+//   }
+//   [[UIApplication sharedApplication].delegate.window.rootViewController presentViewController:alert
+//                                                                                      animated:YES
+//                                                                                    completion:nil];
+// }
 
 - (void)deviceSupportsBiometrics:(FlutterResult)result {
   LAContext *context = self.createAuthContext;
@@ -252,10 +252,10 @@
     case LAErrorTouchIDNotEnrolled:
 #pragma clang diagnostic pop
       if ([arguments[@"useErrorDialogs"] boolValue]) {
-        [self alertMessage:arguments[@"goToSettingDescriptionIOS"]
-                 firstButton:arguments[@"okButton"]
-               flutterResult:result
-            additionalButton:arguments[@"goToSetting"]];
+        // [self alertMessage:arguments[@"goToSettingDescriptionIOS"]
+        //          firstButton:arguments[@"okButton"]
+        //        flutterResult:result
+        //     additionalButton:arguments[@"goToSetting"]];
         return;
       }
       errorCode = authError.code == LAErrorPasscodeNotSet ? @"PasscodeNotSet" : @"NotEnrolled";
@@ -266,10 +266,10 @@
       // iOS 10 support is dropped. The values are the same, only the names have changed.
     case LAErrorTouchIDLockout:
 #pragma clang diagnostic pop
-      [self alertMessage:arguments[@"lockOut"]
-               firstButton:arguments[@"okButton"]
-             flutterResult:result
-          additionalButton:nil];
+      // [self alertMessage:arguments[@"lockOut"]
+      //          firstButton:arguments[@"okButton"]
+      //        flutterResult:result
+      //     additionalButton:nil];
       return;
   }
   result([FlutterError errorWithCode:errorCode
@@ -279,10 +279,10 @@
 
 #pragma mark - AppDelegate
 
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-  if (self.lastCallArgs != nil && self.lastResult != nil) {
-    [self authenticateWithBiometrics:_lastCallArgs withFlutterResult:self.lastResult];
-  }
-}
+// - (void)applicationDidBecomeActive:(UIApplication *)application {
+//   if (self.lastCallArgs != nil && self.lastResult != nil) {
+//     [self authenticateWithBiometrics:_lastCallArgs withFlutterResult:self.lastResult];
+//   }
+// }
 
 @end
